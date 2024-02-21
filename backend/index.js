@@ -1,6 +1,6 @@
 import express from "express";
-import { connectDb } from "./config/db";
-import router from "./routes/userRoutes";
+import { connectDb } from "./config/db.js";
+import router from "./routes/userRoutes.js";
 import cors from "cors";
 const PORT = 3000;
 const app = express();
