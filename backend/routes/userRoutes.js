@@ -1,5 +1,6 @@
+import { signup } from "../controllers/usersContriller";
 const router = express.Router();
 
-router.route('/addUser').post(addUser);
+router.route('/user/signup').post(signup);
 
 export default router
