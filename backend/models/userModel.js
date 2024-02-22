@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs"
 
 const userSchema = new mongoose.Schema({
     userName: {
@@ -28,6 +29,23 @@ const userSchema = new mongoose.Schema({
         maxlength: 50
     }
 })
+
+userSchema.pre('save', async function (next) {
+    const user = this;
+
+    if (!user.isModified('password')) return next();
+
+    try {
+        const salt = await bcrypt.genSalt(10);
+
+        const hashpassword = await bcrypt.hash(user.password, salt);
+        user.password = hashpassword;
+        next();
+    } catch (error) {
+        return next(error)
+    }
+})
+
 
 const userModel = mongoose.model('User', userSchema);
 
