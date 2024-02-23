@@ -1,17 +1,18 @@
 import { asyncHandler } from "../middlewares/asyncHandler.js";
-import zod from "zod";
+import zod, { string } from "zod";
 import jwt from "jsonwebtoken";
 import { userModel } from "../models/userModel.js";
 import { JWT_SECRET } from "../utils/user.js";
 
 
+const signZod = zod.object({
+    userName: zod.string().email(),
+    password: zod.string(),
+    firstName: zod.string(),
+    lastName: zod.string()
+})
+
 const signup = asyncHandler(async (req, res) => {
-    const signZod = zod.object({
-        userName: zod.string().email(),
-        password: zod.string(),
-        firstName: zod.string(),
-        lastName: zod.string()
-    })
 
     const { success } = signZod.safeParse(req.body);
     if (!success) {
@@ -41,6 +42,15 @@ const signup = asyncHandler(async (req, res) => {
         msg: "User created successfully",
         token: token
     })
+})
+
+const signin = asyncHandler(async (req, res) => {
+    const zodSignin = zod.object({
+        userName: string().email(),
+        password: string()
+    })
+
+    const
 })
 
 export { signup }
