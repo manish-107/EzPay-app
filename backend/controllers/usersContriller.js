@@ -86,18 +86,25 @@ const signin = asyncHandler(async (req, res) => {
 
 const zodUpdate = zod.object({
     password: string(),
-    firstname: string(),
-    lastname: string()
+    firstName: string(),
+    lastName: string()
 })
 
 const updateUser = asyncHandler(async (req, res) => {
-    const { success } = updateUser.safeParse(req.body);
+    const { success } = zodUpdate.safeParse(req.body);
+    try {
 
-    if (!success) {
-        return res.status(401).json({ msg: "Enter correct values" })
+        if (!success) {
+            return res.status(401).json({ msg: "Enter correct values" })
+        }
+        await userModel.updateOne({ _id: req.userId }, req.body)
+        res.json({
+            message: "User updated"
+        })
+    } catch (error) {
+        res.status(403).json({ msg: "Error while updating data" })
     }
-
 
 })
 
-export { signup, signin }
+export { signup, signin, updateUser }
