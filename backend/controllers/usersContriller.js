@@ -1,6 +1,7 @@
 import { asyncHandler } from "../middlewares/asyncHandler.js";
 import zod, { string } from "zod";
 import jwt from "jsonwebtoken";
+import bycrpt from "bcryptjs";
 import { userModel } from "../models/userModel.js";
 import { JWT_SECRET } from "../utils/user.js";
 
@@ -44,13 +45,48 @@ const signup = asyncHandler(async (req, res) => {
     })
 })
 
-const signin = asyncHandler(async (req, res) => {
-    const zodSignin = zod.object({
-        userName: string().email(),
-        password: string()
-    })
-
-    const
+const zodSignin = zod.object({
+    userName: string().email(),
+    password: string()
 })
 
-export { signup }
+const signin = asyncHandler(async (req, res) => {
+    const { success } = zodSignin.safeParse(req.body);
+    if (!success) {
+        return res.status(411).json({ msg: "Email already taken or incorrect email" })
+    }
+
+    const existingUser = await userModel.findOne({
+        userName: req.body.userName
+    })
+
+    if (!existingUser) {
+        return res.status(411).json({ msg: "User name does not exists" })
+    }
+
+    const user = await userModel.findOne({
+        userName: req.body.userName,
+        password: req.body.password
+    })
+
+
+
+    if (user) {
+
+        const isPassword = bycrpt.compare(user.password, req.body.password)
+        if (isPassword) {
+            const token = jwt.sign({
+                userId: user._id
+            }, JWT_SECRET);
+
+            res.json({
+                token: token
+            })
+            return;
+        }
+    }
+
+    res.status(411).json({ message: "Error while login" })
+})
+
+export { signup, signin }
