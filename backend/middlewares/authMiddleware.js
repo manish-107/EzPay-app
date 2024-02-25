@@ -1,11 +1,11 @@
-import { JWT_SECRET } from "../utils/user";
+import { JWT_SECRET } from "../utils/user.js";
 import { asyncHandler } from "./asyncHandler.js";
 import jwt from "jsonwebtoken";
 
 const authMiddleware = asyncHandler(async (req, res, next) => {
-    const authHeader = await res.header.authorization;
-
-    if (!authHeader || !authHeader.startWith('Bearer ')) { //api key Bearer
+    const authHeader = await req.headers.authorization;
+    console.log(req.headers.authorization)
+    if (!authHeader || !authHeader.startsWith('Bearer ')) { //api key Bearer
         return res.status(403).json({})
     }
 

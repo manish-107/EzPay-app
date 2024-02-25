@@ -85,15 +85,15 @@ const signin = asyncHandler(async (req, res) => {
 })
 
 const zodUpdate = zod.object({
-    password: string(),
-    firstName: string(),
-    lastName: string()
+    password: string().optional(),
+    firstName: string().optional(),
+    lastName: string().optional()
 })
 
 const updateUser = asyncHandler(async (req, res) => {
-    const { success } = zodUpdate.safeParse(req.body);
-    try {
+    const { success, error } = zodUpdate.safeParse(req.body);
 
+    try {
         if (!success) {
             return res.status(401).json({ msg: "Enter correct values" })
         }
