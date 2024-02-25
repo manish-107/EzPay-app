@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 const authMiddleware = asyncHandler(async (req, res, next) => {
     const authHeader = await res.header.authorization;
 
-    if (!authHeader || !authHeader.startWith('Bearer ')) {
+    if (!authHeader || !authHeader.startWith('Bearer ')) { //api key Bearer
         return res.status(403).json({})
     }
 
@@ -13,8 +13,12 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        req.userId = decoded.userId;
-        next()
+        if (decoded.userId) {
+            req.userId = decoded.userId;
+            next()
+        } else {
+            return res.status(403).json({});
+        }
     } catch (error) {
         return res.status(403).json({});
     }
