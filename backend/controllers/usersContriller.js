@@ -91,7 +91,7 @@ const zodUpdate = zod.object({
 })
 
 const updateUser = asyncHandler(async (req, res) => {
-    const { success, error } = zodUpdate.safeParse(req.body);
+    const { success } = zodUpdate.safeParse(req.body);
 
     try {
         if (!success) {
