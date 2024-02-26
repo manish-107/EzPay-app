@@ -6,6 +6,6 @@ const router = express.Router();
 router.route('/user/signup').post(signup);
 router.route('/user/signin').post(signin);
 router.route('/user/updateUser').put(authMiddleware, updateUser);
-router.route('/user/bulk').get(authMiddleware, getUserBulk);
+router.route('/user/bulk').get(getUserBulk);
 
 export default router
