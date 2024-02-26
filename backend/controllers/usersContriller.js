@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { userModel } from "../models/userModel.js";
 import { JWT_SECRET } from "../utils/user.js";
+import { accountModel } from "../models/accountModel.js";
 
 
 const signZod = zod.object({
@@ -35,6 +36,13 @@ const signup = asyncHandler(async (req, res) => {
     });
 
     const userId = user._id;
+    //-------create new account with random balance------
+    await accountModel.create({
+        userId,
+        balance: 1 + Math.random() * 10000
+    })
+    //-------------------------------------------------
+
     const token = jwt.sign({
         userId
     }, JWT_SECRET)
