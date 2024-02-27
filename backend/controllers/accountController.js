@@ -16,41 +16,49 @@ const getBalance = asyncHandler(async (req, res) => {
 })
 
 const transferAmt = asyncHandler(async (req, res) => {
+    try {
 
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    const { amount, to } = req.body;
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        const { amount, to } = req.body;
 
-    const account = await userModel.findOne({
-        userId: req.userId
-    }).session(session);
+        const account = await userModel.findOne({
+            userId: req.userId
+        }).session(session);
 
-    if (account.balance < amount) {
-        await session.abortTransaction();
-        return res.status(400).json({
-            message: "Insufficient balance"
-        })
-    }
+        if (!account || account.balance < amount) {
+            await session.abortTransaction();
+            return res.status(400).json({
+                message: "Insufficient balance"
+            })
+        }
 
-    const toAccount = await userModel.findOne({
-        userId: to
-    }).session(session);
+        const toAccount = await userModel.findOne({
+            userId: to
+        }).session(session);
 
-    if (!toAccount) {
+        if (!toAccount) {
+            session.abortTransaction();
+            res.status(400).json({
+                message: "User not found"
+            })
+        }
+
+        await userModel.updateOne({ userId: req.userId }, { $inc: { balance: -amount } }).session(session);
+        await userModel.updateOne({ userId: to }, { $inc: { balance: amount } }).session(session);
+
+        await session.commitTransaction();
+        res.json({
+            message: "transfer completed"
+        });
+
+    } catch (error) {
+        console.log(error)
         session.abortTransaction();
-        res.status(400).json({
-            message: "User not found"
+        res.status(500).json({
+            message: "Error occurred"
         })
     }
-
-    await userModel.updateOne({ userId: req.userId }, { $inc: { balance: -amount } }).session(session);
-    await userModel.updateOne({ userId: to }, { $inc: { balance: amount } }).session(session);
-
-    await session.commitTransaction();
-    res.json({
-        message: "transfer completed"
-    });
-
 
 })
 
