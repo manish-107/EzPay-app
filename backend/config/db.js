@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const mongoUrl = 'mongodb://127.0.0.1:27017/ezPay'
+const mongoUrl = 'mongodb+srv://thestranger2676:bMlI7g1YbqlfE6Rl@ezpay.au7aiza.mongodb.net/?retryWrites=true&w=majority&appName=ezPay'
 
 const connectDb = async () => {
     try {
