@@ -15,10 +15,6 @@ const getBalance = asyncHandler(async (req, res) => {
 });
 
 const transferAmt = asyncHandler(async (req, res) => {
-    const userId = req.userId;
-    console.log(userId)
-    const demno = await accountModel.findOne({ userId })
-    console.log(demno)
     const session = await mongoose.startSession();
 
     session.startTransaction();
@@ -55,4 +51,37 @@ const transferAmt = asyncHandler(async (req, res) => {
     });
 });
 
-export { getBalance, transferAmt };
+const localtransferAmt = asyncHandler(async () => {
+    const userId = req.userId;
+    const { Amount, to } = req.body;
+    try {
+        const account = await accountModel.findOne({ userId })
+        if (!account || account.balance < Amount) {
+            res.status(400).json({
+                message: "Insufficient balance"
+            })
+        }
+
+        const toAccount = await accountModel.findone({ to })
+        if (!toAccount) {
+            res.status(400).json({
+                message: "Invalid account"
+            })
+        }
+
+        //perform transfer
+        await accountModel.updateOne({ userId }, { $inc: { balance: -Amount } });
+        await accountModel.updateOne({ to }, { $inc: { balance: Amount } });
+
+        res.json({
+            message: "transfer successful"
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: "internal server error"
+        })
+    }
+
+})
+
+export { getBalance, transferAmt, localtransferAmt };

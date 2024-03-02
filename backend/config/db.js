@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import { mongoUrl } from "../utils/user.js";
 
-mongoUrl
 const connectDb = async () => {
     try {
         await mongoose.connect(mongoUrl);
