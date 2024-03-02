@@ -67,7 +67,7 @@ const transferAmt = asyncHandler(async (req, res) => {
 });
 
 // Local transfer amount without transaction
-const localtransferAmt = asyncHandler(async () => {
+const localtransferAmt = asyncHandler(async (req, res) => {
     const userId = req.userId;
     const { Amount, to } = req.body;
     try {
@@ -101,6 +101,7 @@ const localtransferAmt = asyncHandler(async () => {
         });
     } catch (error) {
         // Handle internal server error
+        console.log(error)
         return res.status(500).json({
             message: "Internal server error"
         });

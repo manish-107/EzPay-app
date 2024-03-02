@@ -28,7 +28,8 @@ const userSchema = new mongoose.Schema({
         trim: true,
         maxlength: 50
     }
-})
+
+}, { timestamps: true })
 
 userSchema.pre('save', async function (next) {
     const user = this;
