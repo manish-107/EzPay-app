@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
+import { mongoUrl } from "../utils/user.js";
 
-const mongoUrl = 'mongodb+srv://thestranger2676:bMlI7g1YbqlfE6Rl@ezpay.au7aiza.mongodb.net/?retryWrites=true&w=majority&appName=ezPay'
-
+mongoUrl
 const connectDb = async () => {
     try {
         await mongoose.connect(mongoUrl);
