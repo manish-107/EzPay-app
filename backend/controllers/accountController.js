@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { asyncHandler } from "../middlewares/asyncHandler.js";
 import { accountModel } from "../models/accountModel.js";
+import { transactionModel } from "../models/transactionDetailsModel.js";
+import zod, { number } from "zod";
 
 // Get balance for the current user
 const getBalance = asyncHandler(async (req, res) => {
@@ -18,6 +20,12 @@ const getBalance = asyncHandler(async (req, res) => {
     res.json({ balance: account.balance });
 });
 
+const zodeTransfer = zod.object({
+    amount: zod.number(),
+    to: zod.string(),
+    desc: zod.string()
+})
+
 // Transfer amount between two accounts using a transaction
 const transferAmt = asyncHandler(async (req, res) => {
     // Start a new Mongoose session for the transaction
@@ -28,7 +36,12 @@ const transferAmt = asyncHandler(async (req, res) => {
 
     // Extract amount and recipient from request body
     const { amount, to } = req.body;
-
+    const { success } = zodeTransfer.safeParse(req.body)
+    if (!success) {
+        res.status(400).json({
+            message: "invalid credentials"
+        })
+    }
     // Fetch the sender's account within the transaction
     const account = await accountModel.findOne({ userId: req.userId }).session(session);
 
@@ -69,7 +82,7 @@ const transferAmt = asyncHandler(async (req, res) => {
 // Local transfer amount without transaction
 const localtransferAmt = asyncHandler(async (req, res) => {
     const userId = req.userId;
-    const { Amount, to } = req.body;
+    const { Amount, to, desc } = req.body;
     try {
         // Find the sender's account
         const account = await accountModel.findOne({ userId })
@@ -94,10 +107,15 @@ const localtransferAmt = asyncHandler(async (req, res) => {
         // Perform the transfer
         await accountModel.updateOne({ userId }, { $inc: { balance: -Amount } });
         await accountModel.updateOne({ userId: to }, { $inc: { balance: Amount } });
-
+        const transaction = await transactionModel.create({
+            fromId: userId,
+            toId: to,
+            sentAmount: Amount,
+            transactionDesc: desc
+        })
         // Return success message
         return res.json({
-            message: "Transfer successful"
+            transaction
         });
     } catch (error) {
         // Handle internal server error
