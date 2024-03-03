@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
-const transactionSchema = mongoose.Schema({
+const transactionSchema = new mongoose.Schema({
     fromId: {
         type: String,
         required: true
     },
     toId: {
         type: String,
-        required: true,
+        required: true
     },
     sentAmount: {
         type: Number,
@@ -15,7 +15,7 @@ const transactionSchema = mongoose.Schema({
     },
     transactionDesc: {
         type: String,
-        required: true,
+        required: true
     }
 }, { timestamps: true });
 

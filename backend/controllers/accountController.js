@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { asyncHandler } from "../middlewares/asyncHandler.js";
 import { accountModel } from "../models/accountModel.js";
 import { transactionModel } from "../models/transactionDetailsModel.js";
-import zod, { number } from "zod";
+import zod from "zod";
 
 // Get balance for the current user
 const getBalance = asyncHandler(async (req, res) => {
@@ -31,19 +31,24 @@ const transferAmt = asyncHandler(async (req, res) => {
     // Start a new Mongoose session for the transaction
     const session = await mongoose.startSession();
 
-    // Start a transaction within the session
     session.startTransaction();
+    const userId = req.userId;
+    const { amount, to, desc } = req.body;
 
-    // Extract amount and recipient from request body
-    const { amount, to } = req.body;
+
     const { success } = zodeTransfer.safeParse(req.body)
     if (!success) {
         res.status(400).json({
             message: "invalid credentials"
         })
     }
+
+
+    // Start a transaction within the session
+    console.log(userId, amount, to, desc)
+    // Extract amount and recipient from request body
     // Fetch the sender's account within the transaction
-    const account = await accountModel.findOne({ userId: req.userId }).session(session);
+    const account = await accountModel.findOne({ userId }).session(session);
 
     // Check if sender's account exists and has sufficient balance
     if (!account || account.balance < amount) {
@@ -56,7 +61,7 @@ const transferAmt = asyncHandler(async (req, res) => {
 
     // Fetch the recipient's account within the transaction
     const toAccount = await accountModel.findOne({ userId: to }).session(session);
-
+    console.log(toAccount)
     // Check if recipient's account exists
     if (!toAccount) {
         // Abort the transaction if recipient's account is not found
@@ -67,28 +72,43 @@ const transferAmt = asyncHandler(async (req, res) => {
     }
 
     // Perform the transfer by updating balances for sender and recipient
-    await accountModel.updateOne({ userId: req.userId }, { $inc: { balance: -amount } }).session(session);
+    await accountModel.updateOne({ userId }, { $inc: { balance: -amount } }).session(session);
     await accountModel.updateOne({ userId: to }, { $inc: { balance: amount } }).session(session);
 
-    // Commit the transaction if everything is successful
     await session.commitTransaction();
+    // Commit the transaction if everything is successful
 
-    // Return success message
-    res.json({
-        message: "Transfer successful"
+    const transaction = await transactionModel.create({
+        fromId: userId,
+        toId: to,
+        sentAmount: amount,
+        transactionDesc: desc
+    })
+
+
+    return res.json({
+        createdAt: transaction.createdAt,
+        sentAmount: transaction.sentAmount,
+        transactionDesc: transaction.transactionDesc
     });
 });
 
 // Local transfer amount without transaction
 const localtransferAmt = asyncHandler(async (req, res) => {
     const userId = req.userId;
-    const { Amount, to, desc } = req.body;
+    const { amount, to, desc } = req.body;
     try {
         // Find the sender's account
+        const { success } = zodeTransfer.safeParse(req.body)
+        if (!success) {
+            res.status(400).json({
+                message: "invalid credentials"
+            })
+        }
         const account = await accountModel.findOne({ userId })
 
         // Check if sender's account exists and has sufficient balance
-        if (!account || account.balance < Amount) {
+        if (!account || account.balance < amount) {
             return res.status(400).json({
                 message: "Insufficient balance"
             });
@@ -105,17 +125,20 @@ const localtransferAmt = asyncHandler(async (req, res) => {
         }
 
         // Perform the transfer
-        await accountModel.updateOne({ userId }, { $inc: { balance: -Amount } });
-        await accountModel.updateOne({ userId: to }, { $inc: { balance: Amount } });
+        await accountModel.updateOne({ userId }, { $inc: { balance: -amount } });
+        await accountModel.updateOne({ userId: to }, { $inc: { balance: amount } });
+
         const transaction = await transactionModel.create({
             fromId: userId,
             toId: to,
-            sentAmount: Amount,
+            sentAmount: amount,
             transactionDesc: desc
         })
         // Return success message
         return res.json({
-            transaction
+            createdAt: transaction.createdAt,
+            sentAmount: transaction.sentAmount,
+            transactionDesc: transaction.transactionDesc
         });
     } catch (error) {
         // Handle internal server error
