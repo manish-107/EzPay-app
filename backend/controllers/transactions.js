@@ -1,5 +1,6 @@
-import { asyncHandler } from "../middlewares/asyncHandler";
-import { transactionModel } from "../models/transactionDetailsModel";
+import { asyncHandler } from "../middlewares/asyncHandler.js";
+import { transactionModel } from "../models/transactionDetailsModel.js";
+
 
 const transactionHistory = asyncHandler(async (req, res) => {
     try {

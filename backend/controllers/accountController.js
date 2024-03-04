@@ -75,16 +75,20 @@ const transferAmt = asyncHandler(async (req, res) => {
     await accountModel.updateOne({ userId }, { $inc: { balance: -amount } }).session(session);
     await accountModel.updateOne({ userId: to }, { $inc: { balance: amount } }).session(session);
 
-    await session.commitTransaction();
-    // Commit the transaction if everything is successful
 
-    const transaction = await transactionModel.create({
+    // Assuming transactionModel is a constructor function
+    const transaction = new transactionModel({
         fromId: userId,
         toId: to,
         sentAmount: amount,
         transactionDesc: desc
-    })
+    });
 
+    // Save the transaction to the database with the session option
+    await transaction.save({ session });
+
+    // Commit the transaction
+    await session.commitTransaction();
 
     return res.json({
         createdAt: transaction.createdAt,
