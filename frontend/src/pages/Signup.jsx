@@ -6,7 +6,7 @@ import img from "../assets/loginPageimg.png"
 
 const Signup = () => {
     return (
-        <section className="text-gray-100 bg-slate-200 body-font">
+        <section className="h-screen text-gray-100 bg-slate-200 body-font">
             <div className="container flex flex-wrap items-center justify-center px-5 py-6 pb-0 mx-auto md:py-16">
                 <div className="w-5/6 md:h-3/6 lg:max-w-lg lg:w-full md:w-1/2">
                     <img
