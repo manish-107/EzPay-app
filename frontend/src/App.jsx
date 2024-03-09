@@ -10,9 +10,10 @@ function App() {
 
 
       {/* <LoginPage /> */}
-      {/* <Signup /> */}
 
+      {/* <Signup /> */}
       <Dashboard />
+
     </>
   )
 }
