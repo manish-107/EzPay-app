@@ -3,7 +3,7 @@ import logoImg from "../assets/Designer.png";
 
 export const HeaderDash = () => {
     return (
-        <div className='m-3'>
+        <div className='p-3'>
             <header className="text-white shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] bg-gray-900 rounded-2xl body-font">
                 <div className="container flex flex-row items-center justify-between p-5 mx-auto md:flex-row gap-y-6">
                     <a className="flex items-center font-semibold text-gray-900 md:font-bold title-font md:mb-0">

@@ -1,11 +1,13 @@
 import React from 'react'
 import { HeaderDash } from '../components/HeaderDash'
+import SearchBar from '../components/SearchBar'
 
 const Dashboard = () => {
     return (
-        <div>
+        <div >
             <HeaderDash />
-        </div>
+            <SearchBar />
+        </div >
     )
 }
 
