@@ -4,10 +4,10 @@ import Button from './Button'
 const Searchresult = ({ user }) => {
     return (
         <div className='flex justify-center '>
-            <div className='flex justify-between w-11/12 p-2 mt-5 border rounded-xl bg-slate-300 md:justify-around md:p-3 md:4/12'>
+            <div className='flex justify-between w-9/12 p-2 md:justify-around md:p-3 md:5/12'>
                 <div className="flex ">
-                    <div className="flex justify-center w-8 h-8 pb-1 mt-1 mr-2 rounded-full md:h-12 md:w-12 bg-slate-200">
-                        <div className="flex flex-col justify-center h-full text-xl font-semibold">
+                    <div className="flex justify-center w-6 h-6 pb-1 mt-1 mr-2 rounded-full md:h-10 md:w-10 bg-slate-200">
+                        <div className="flex flex-col justify-center h-full text-lg font-semibold">
                             {user.firstName[0]}
                         </div>
                     </div>

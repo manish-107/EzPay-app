@@ -4,7 +4,7 @@ const SearchBar = () => {
     return (
         <div>
             <div className='flex justify-center'>
-                <div className="w-11/12 md:3/4">
+                <div className="w-11/12 md:w-8/12">
                     <label htmlFor="search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">

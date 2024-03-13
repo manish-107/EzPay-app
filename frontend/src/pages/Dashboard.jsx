@@ -8,9 +8,15 @@ const Dashboard = () => {
         firstName: "manish",
         lastName: "s",
         _id: 1
-    }])
+    },
+    {
+        firstName: "manish",
+        lastName: "s",
+        _id: 2
+    }
+    ])
     return (
-        <div className='h-screen bg-slate-300' >
+        <div className='h-screen bg-slate-400' >
             <HeaderDash />
             <div className='m-5'>
                 <h2 className='p-5 ml-0 text-xl font-bold md:ml-48 md:text-2xl'> Your Balance : 5000rs</h2>
