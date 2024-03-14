@@ -1,4 +1,5 @@
 import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import SendMoney from './components/SendMoney'
 import Dashboard from './pages/Dashboard'
 import LoginPage from './pages/LoginPage'
@@ -8,10 +9,14 @@ function App() {
 
   return (
     <>
-      {/* <LoginPage /> */}
-      {/* <Dashboard /> */}
-      <SendMoney />
-      {/* <Signup /> */}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<LoginPage />} />
+          <Route path="/sendmoney" element={<SendMoney />} />
+        </Routes>
+      </BrowserRouter>
 
     </>
   )

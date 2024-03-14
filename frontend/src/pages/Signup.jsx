@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import InputBox from '../components/InputBox'
 import HeadingPage from '../components/HeadingPage'
 import Button from '../components/Button'
 import img from "../assets/loginPageimg.png"
 
 const Signup = () => {
+    const [userName, setuserName] = useState("")
+
     return (
         <section className="h-screen text-gray-100 bg-slate-200 body-font">
             <div className="container flex flex-wrap items-center justify-center px-5 py-6 pb-0 mx-auto md:py-16">
