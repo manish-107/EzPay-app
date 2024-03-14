@@ -3,9 +3,14 @@ import InputBox from '../components/InputBox'
 import HeadingPage from '../components/HeadingPage'
 import Button from '../components/Button'
 import img from "../assets/loginPageimg.png"
+import axios from "axios"
 
 const Signup = () => {
-    const [userName, setuserName] = useState("")
+    const [userName, setuserName] = useState("");
+    const [firstName, setfirstName] = useState("");
+    const [lastName, setlastName] = useState("");
+    const [password, setpassword] = useState("");
+
 
     return (
         <section className="h-screen text-gray-100 bg-slate-200 body-font">
@@ -16,16 +21,21 @@ const Signup = () => {
                         alt="hero"
                         src={img}
                     />
-
-                    {/* D:\Projects\ezPay\EzPay-app\frontend\src\assets\loginimg2.jpg */}
                 </div>
                 <div className="flex flex-col w-full p-8 mt-6 rounded-lg lg:ml-6 lg:w-2/6 md:w-1/2 md:ml-auto md:mt-0">
                     <HeadingPage text="Sign Up" />
-                    <InputBox label="Email" placeholder="Enter the Email" type="email" />
-                    <InputBox label="First name" placeholder="Enter the first name" type="text" />
-                    <InputBox label="Last name" placeholder="Enter the last name" type="text" />
-                    <InputBox label="Password" placeholder="Enter the Password" type="password" />
-                    <Button text="Sign in" />
+                    <InputBox onChange={(e) => setuserName(e.target.value)} label="Email" placeholder="Enter the Email" type="email" />
+                    <InputBox onChange={(e) => setfirstName(e.target.value)} label="First name" placeholder="Enter the first name" type="text" />
+                    <InputBox onChange={(e) => setlastName(e.target.value)} label="Last name" placeholder="Enter the last name" type="text" />
+                    <InputBox onChange={(e) => setpassword(e.target.value)} label="Password" placeholder="Enter the Password" type="password" />
+                    <Button onClick={() => {
+                        axios.post("http://localhost:3000/api/v1/user/signup", {
+                            userName,
+                            firstName,
+                            lastName,
+                            password
+                        })
+                    }} text="Sign in" />
                     <p className="mt-3 text-xs text-gray-500">Experience the seamless convenience of secure online transactions with our app</p>
                 </div>
             </div>
