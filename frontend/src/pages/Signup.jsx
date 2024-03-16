@@ -11,11 +11,29 @@ const Signup = () => {
     const [lastName, setlastName] = useState("");
     const [password, setpassword] = useState("");
 
+    const postFormData = async () => {
+        try {
+            const response = await axios.post("http://localhost:3000/api/v1/user/signup", {
+                userName,
+                firstName,
+                lastName,
+                password
+            })
+            localStorage.setItem("token", response.data.token)
+            setfirstName("");
+            setlastName("");
+            setpassword("");
+            setuserName("");
+        } catch (error) {
+            console.log("Error whle submitting")
+        }
+    }
+
 
     return (
         <section className="h-screen text-gray-100 bg-slate-200 body-font">
             <div className="container flex flex-wrap items-center justify-center px-5 py-6 pb-0 mx-auto md:py-16">
-                <div className="w-5/6 md:h-3/6 lg:max-w-lg lg:w-full md:w-1/2">
+                <div className="w-8/12 md:h-3/6 lg:max-w-lg lg:w-full md:w-1/2">
                     <img
                         className="object-cover object-center rounded"
                         alt="hero"
@@ -28,14 +46,7 @@ const Signup = () => {
                     <InputBox onChange={(e) => setfirstName(e.target.value)} label="First name" placeholder="Enter the first name" type="text" />
                     <InputBox onChange={(e) => setlastName(e.target.value)} label="Last name" placeholder="Enter the last name" type="text" />
                     <InputBox onChange={(e) => setpassword(e.target.value)} label="Password" placeholder="Enter the Password" type="password" />
-                    <Button onClick={() => {
-                        axios.post("http://localhost:3000/api/v1/user/signup", {
-                            userName,
-                            firstName,
-                            lastName,
-                            password
-                        })
-                    }} text="Sign in" />
+                    <Button onClick={() => postFormData()} text="Sign in" />
                     <p className="mt-3 text-xs text-gray-500">Experience the seamless convenience of secure online transactions with our app</p>
                 </div>
             </div>
