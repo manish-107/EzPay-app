@@ -6,13 +6,12 @@ import Button from '../components/Button'
 import img from "../assets/loginPageimg.png"
 import axios from "axios"
 
-const Signup = () => {
+const Signup = ({ setisAuth }) => {
     const navigate = useNavigate();
     const [userName, setuserName] = useState("");
     const [firstName, setfirstName] = useState("");
     const [lastName, setlastName] = useState("");
     const [password, setpassword] = useState("");
-    const [isAuth, setisAuth] = useState(false);
     const postFormData = async () => {
         try {
             const response = await axios.post("http://localhost:3000/api/v1/user/signup", {

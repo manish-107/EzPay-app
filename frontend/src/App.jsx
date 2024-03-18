@@ -5,6 +5,8 @@ import Dashboard from './pages/Dashboard'
 import LoginPage from './pages/LoginPage'
 import Signup from './pages/Signup'
 import { useState } from 'react'
+import LandingPage from './pages/LandingPage'
+import Pagenotfound from './pages/Pagenotfound'
 
 function App() {
   const [isAuth, setisAuth] = useState(false);
@@ -13,10 +15,19 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/" element={<Signup />} />
-          <Route path="/signin" element={<LoginPage />} />
-          <Route path="/sendmoney" element={<SendMoney />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signin" element={<LoginPage setisAuth={setisAuth} />} />
+          <Route path="/signup" element={<Signup setisAuth={setisAuth} />} />
+
+          {isAuth ? (
+            <Route path="/dashboard" element={<Dashboard />} />
+          ) : (
+            <Route path='*' element={<Pagenotfound />} />
+          )
+
+          }
+
+
         </Routes>
       </BrowserRouter>
 
