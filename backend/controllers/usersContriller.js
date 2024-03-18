@@ -116,7 +116,7 @@ const updateUser = asyncHandler(async (req, res) => {
 })
 
 const getUserBulk = asyncHandler(async (req, res) => {
-    const filter = await req.body.filter || "";
+    const filter = await req.query.filter || "";
     const users = await userModel.find({
         $or: [{
             firstName: {

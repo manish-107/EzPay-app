@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from "react-router-dom"
 import InputBox from '../components/InputBox'
 import HeadingPage from '../components/HeadingPage'
 import Button from '../components/Button'
@@ -6,11 +7,12 @@ import img from "../assets/loginPageimg.png"
 import axios from "axios"
 
 const Signup = () => {
+    const navigate = useNavigate();
     const [userName, setuserName] = useState("");
     const [firstName, setfirstName] = useState("");
     const [lastName, setlastName] = useState("");
     const [password, setpassword] = useState("");
-
+    const [isAuth, setisAuth] = useState(false);
     const postFormData = async () => {
         try {
             const response = await axios.post("http://localhost:3000/api/v1/user/signup", {
@@ -19,13 +21,15 @@ const Signup = () => {
                 lastName,
                 password
             })
-            localStorage.setItem("token", response.data.token)
+            localStorage.setItem("token", response.data.token);
+            setisAuth(true);
             setfirstName("");
             setlastName("");
             setpassword("");
             setuserName("");
+            navigate('/dashboard');
         } catch (error) {
-            console.log("Error whle submitting")
+            console.log(error)
         }
     }
 

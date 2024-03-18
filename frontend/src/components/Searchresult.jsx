@@ -8,12 +8,12 @@ const Searchresult = ({ user }) => {
                 <div className="flex ">
                     <div className="flex justify-center w-6 h-6 pb-1 mt-1 mr-2 rounded-full md:h-10 md:w-10 bg-slate-200">
                         <div className="flex flex-col justify-center h-full text-lg font-semibold">
-                            {user.firstName[0]}
+                            {user.firstname[0]}
                         </div>
                     </div>
-                    <div className="flex flex-col justify-center h-full font-semibold">
+                    <div className="flex flex-col justify-center w-full h-full font-semibold md:w-28">
                         <div>
-                            {user.firstName} {user.lastName}
+                            {user.firstname} {user.lastname}
                         </div>
                     </div>
                 </div>
