@@ -20,23 +20,26 @@ const Dashboard = () => {
     }, [filter])
 
     useEffect(() => {
-        const item = localStorage.getItem("token")
-        console.log(item)
-        axios.get("http://localhost:3000/api/v1/account/balance")
-            .then(res => {
-                setuserdetails(res.data)
+        const token = localStorage.getItem("token")
+        axios.get("http://localhost:3000/api/v1/account/balance",
+            {
+                headers: {
+                    authorization: 'Bearer ' + token
+                }
+            })
+            .then((res) => {
+                setuserdetails(res.data);
             })
             .catch((err) => {
                 console.log(err)
             })
     }, [])
 
-
     return (
         <div className='h-screen bg-slate-400' >
-            <HeaderDash />
+            <HeaderDash firstname={userdetails.firstname} lastname={userdetails.lastname} />
             <div className='m-5'>
-                <h2 className='p-5 ml-0 text-xl font-bold md:ml-48 md:text-2xl'> Your Balance : 5000rs</h2>
+                <h2 className='p-5 ml-0 text-xl font-bold md:ml-48 md:text-2xl'> Your Balance : {userdetails.balance}</h2>
                 <SearchBar setfilter={setfilter} />
                 {users.map((user) => <Searchresult key={user._id} user={user} />)}
             </div>
