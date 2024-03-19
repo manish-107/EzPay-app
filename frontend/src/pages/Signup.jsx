@@ -20,13 +20,19 @@ const Signup = ({ setisAuth }) => {
                 lastName,
                 password
             })
-            localStorage.setItem("token", response.data.token);
-            setisAuth(true);
-            setfirstName("");
-            setlastName("");
-            setpassword("");
-            setuserName("");
-            navigate('/dashboard');
+
+            if (response.data.token) {
+                localStorage.setItem("token", response.data.token);
+                setisAuth(true);
+                setfirstName("");
+                setlastName("");
+                setpassword("");
+                setuserName("");
+                navigate('/dashboard');
+            } else {
+                console.log(response);
+
+            }
         } catch (error) {
             console.log(error)
         }

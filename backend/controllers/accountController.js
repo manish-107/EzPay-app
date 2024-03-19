@@ -3,6 +3,7 @@ import { asyncHandler } from "../middlewares/asyncHandler.js";
 import { accountModel } from "../models/accountModel.js";
 import { transactionModel } from "../models/transactionDetailsModel.js";
 import zod from "zod";
+import { userModel } from "../models/userModel.js";
 
 // Get balance for the current user
 const getBalance = asyncHandler(async (req, res) => {
@@ -10,14 +11,19 @@ const getBalance = asyncHandler(async (req, res) => {
 
     // Find the account associated with the user ID
     const account = await accountModel.findOne({ userId });
-
+    const userDetails = await userModel.findById({ _id: userId });
+    console.log(userDetails)
     // If no account found, return a 404 error
     if (!account) {
         return res.status(404).json({ message: "Account not found" });
     }
 
     // Return the balance
-    res.json({ balance: account.balance });
+    res.json({
+        firstname: userDetails.firstName,
+        lastname: userDetails.lastName,
+        balance: account.balance
+    });
 });
 
 const zodeTransfer = zod.object({

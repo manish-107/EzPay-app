@@ -8,6 +8,7 @@ const Dashboard = () => {
 
     const [filter, setfilter] = useState("");
     const [users, setuser] = useState([])
+    const [userdetails, setuserdetails] = useState([])
     useEffect(() => {
         axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter)
             .then(response => {
@@ -17,6 +18,19 @@ const Dashboard = () => {
                 console.log(err);
             })
     }, [filter])
+
+    useEffect(() => {
+        const item = localStorage.getItem("token")
+        console.log(item)
+        axios.get("http://localhost:3000/api/v1/account/balance")
+            .then(res => {
+                setuserdetails(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }, [])
+
 
     return (
         <div className='h-screen bg-slate-400' >
