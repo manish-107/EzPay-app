@@ -18,12 +18,12 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/signin" element={<LoginPage setisAuth={setisAuth} />} />
           <Route path="/signup" element={<Signup setisAuth={setisAuth} />} />
-          {isAuth ? (
-            <Route path="/dashboard" element={<Dashboard />} />
-          ) : (
-            <Route path='*' element={<Pagenotfound />} />
-          )
-          }
+
+          <Route path="/dashboard" element={<Dashboard setisAuth={setisAuth} />} />
+          <Route path='/sendmoney' element={<SendMoney />} />
+          <Route path='*' element={<Pagenotfound />} />
+
+
         </Routes>
       </BrowserRouter>
 

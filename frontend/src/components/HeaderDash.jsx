@@ -2,7 +2,7 @@ import React from 'react';
 import logoImg from "../assets/Designer.png";
 
 export const HeaderDash = ({ firstname, lastname }) => {
-    console.log(firstname)
+    const firstLetter = firstname ? firstname.charAt(0).toUpperCase() : '';
     return (
         <div className='p-3'>
             <header className="text-white shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] bg-gray-900 rounded-2xl body-font">
@@ -16,12 +16,12 @@ export const HeaderDash = ({ firstname, lastname }) => {
                     </nav>
                     <div className='flex flex-row '>
                         <div className='pt-1 mr-2 text-sm font-semibold md:text-bold md:font-bold pe-2'>
-                            <div>{firstname} s</div>
+                            <div>{firstname}</div>
                             <div>{lastname}</div>
                         </div>
                         <div className="flex justify-center w-10 h-10 mt-1 mr-2 border-4 border-indigo-600 rounded-full shadow-xl md:w-10 md:h-10 hover:shadow-cyan-500/50 bg-slate-200">
-                            <div className="flex flex-col justify-center h-full text-lg font-bold text-black md:text-xl">
-                                U
+                            <div className="flex flex-col justify-center h-full pb-1 text-lg font-bold text-black md:text-xl">
+                                {firstLetter}
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,11 @@
 import React from 'react'
+import { useSearchParams } from 'react-router-dom';
 
-const SendMoney = ({ user }) => {
+const SendMoney = () => {
+    const [searchParams] = useSearchParams();
+    const id = searchParams.get("id");
+    const name = searchParams.get("name");
+    console.log(name, id)
     return (
         <div className='flex items-center justify-center h-screen bg-slate-900'>
             <div className='flex items-center justify-center p-3 border border-gray-300 rounded'>

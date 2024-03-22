@@ -1,7 +1,9 @@
 import React from 'react'
 import Button from './Button'
+import { useNavigate } from 'react-router-dom'
 
 const Searchresult = ({ user }) => {
+    const navigate = useNavigate();
     return (
         <div className='flex justify-center '>
             <div className='flex justify-between w-9/12 p-2 md:justify-around md:p-3 md:5/12'>
@@ -18,7 +20,7 @@ const Searchresult = ({ user }) => {
                     </div>
                 </div>
                 <div className="flex flex-col justify-center h-full">
-                    <Button text={"Send Money"} />
+                    <Button onClick={() => navigate("/sendmoney?id=" + user._id + "&name?=" + user.firstname)} text={"Send Money"} />
                 </div>
             </div>
         </div>
