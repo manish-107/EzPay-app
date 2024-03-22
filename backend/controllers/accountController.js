@@ -107,6 +107,7 @@ const transferAmt = asyncHandler(async (req, res) => {
 const localtransferAmt = asyncHandler(async (req, res) => {
     const userId = req.userId;
     const { amount, to, desc } = req.body;
+    console.log(amount, to, desc)
     try {
         // Find the sender's account
         const { success } = zodeTransfer.safeParse(req.body)

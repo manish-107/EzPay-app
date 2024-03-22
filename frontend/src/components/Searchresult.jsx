@@ -20,7 +20,7 @@ const Searchresult = ({ user }) => {
                     </div>
                 </div>
                 <div className="flex flex-col justify-center h-full">
-                    <Button onClick={() => navigate("/sendmoney?id=" + user._id + "&name?=" + user.firstname)} text={"Send Money"} />
+                    <Button onClick={() => navigate("/sendmoney?id=" + user._id + "&name=" + user.firstname)} text={"Send Money"} />
                 </div>
             </div>
         </div>
