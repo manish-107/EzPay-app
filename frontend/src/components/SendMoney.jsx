@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const SendMoney = () => {
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
     const id = searchParams.get("id");
     const name = searchParams.get("name");
     const [amt, setamt] = useState(0);
@@ -37,6 +38,9 @@ const SendMoney = () => {
                                 })
                                     .then(response => {
                                         console.log(response)
+                                        setTimeout(() => {
+                                            navigate("/dashboard")
+                                        }, 2000);
                                     })
                                     .catch(error => {
                                         // Handle error response
