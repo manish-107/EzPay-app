@@ -14,13 +14,19 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter)
-            .then(response => {
-                setuser(response.data.user);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        const timeout = setTimeout(() => {
+            axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter)
+                .then(response => {
+                    setuser(response.data.user);
+                    console.log(response)
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }, 1000)
+        return () => {
+            clearTimeout(timeout);
+        }
     }, [filter])
 
     useEffect(() => {
@@ -46,6 +52,7 @@ const Dashboard = () => {
     return (
         <div className='h-screen bg-slate-400' >
             <HeaderDash firstname={userdetails ? userdetails.firstname : null} lastname={userdetails ? userdetails.lastname : null} />
+
             {balance !== null ? (
                 <div className='m-5'>
                     <h2 className='p-5 ml-0 text-xl font-bold md:ml-48 md:text-2xl'> Your Balance : {trimmedAmt !== null ? trimmedAmt : <Button onClick={(e) => navigate("/signin")} text="Login" />}</h2>

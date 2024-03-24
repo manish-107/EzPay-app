@@ -5,30 +5,70 @@ import Button from '../components/Button'
 import img from "../assets/loginimg2.png"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import NotificationToast from '../components/NotificationToast'
 
-const LoginPage = ({ setisAuth }) => {
+const LoginPage = ({ setisAuth, toast, settoast }) => {
     const [userName, setuserName] = useState("");
     const [password, setpassword] = useState("");
     const navigate = useNavigate();
+
     const loginForm = async () => {
         try {
             const res = await axios.post("http://localhost:3000/api/v1/user/signin", {
                 userName,
                 password
-            })
+            });
             if (res.data.token) {
                 localStorage.setItem("token", res.data.token);
                 setuserName("");
                 setpassword("");
-                setisAuth(true)
-                navigate("/dashboard");
+                setisAuth(true);
+
+                settoast({
+                    color: "green",
+                    text: "Login successful",
+                    display: true
+                });
+                console.log(toast);
+                setTimeout(() => {
+                    settoast({
+                        color: "",
+                        text: "",
+                        display: false
+                    });
+                    navigate("/dashboard");
+                }, 2000);
             } else {
-                console.log(res)
+                console.log(res.msg);
+                settoast({
+                    color: "red",
+                    text: `${res.msg}`,
+                    display: true
+                });
+                setTimeout(() => {
+                    settoast({
+                        color: "",
+                        text: "",
+                        display: false
+                    });
+                }, 2000);
             }
         } catch (error) {
-
+            settoast({
+                color: "red",
+                text: "Invalid credentials",
+                display: true
+            });
+            setTimeout(() => {
+                settoast({
+                    color: "",
+                    text: "",
+                    display: false
+                });
+            }, 2000);
         }
-    }
+    };
+
 
 
     return (
@@ -41,8 +81,10 @@ const LoginPage = ({ setisAuth }) => {
                         src={img}
                     />
                 </div>
+                {toast.color && <NotificationToast color={toast.color} text={toast.text} />}
                 <div className="flex flex-col w-full p-8 mt-6 rounded-lg lg:ml-6 lg:w-2/6 md:w-1/2 md:ml-auto md:mt-0">
                     <HeadingPage text="Sign In" />
+
                     <InputBox onChange={(e) => setuserName(e.target.value)} label="Email" placeholder="Enter the Email" type="email" />
                     <InputBox onChange={(e) => setpassword(e.target.value)} label="Password" placeholder="Enter the Password" type="password" />
                     <Button onClick={() => loginForm()} text="Sign in" />

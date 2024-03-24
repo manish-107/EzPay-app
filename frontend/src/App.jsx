@@ -10,17 +10,24 @@ import Pagenotfound from './pages/Pagenotfound'
 
 function App() {
   const [isAuth, setisAuth] = useState(false);
+  const [toast, settoast] = useState({
+    color: "",
+    text: "",
+    display: true,
+
+  });
+
 
   return (
     <>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/signin" element={<LoginPage setisAuth={setisAuth} />} />
-          <Route path="/signup" element={<Signup setisAuth={setisAuth} />} />
+          <Route path="/signin" element={<LoginPage toast={toast} settoast={settoast} setisAuth={setisAuth} />} />
+          <Route path="/signup" element={<Signup toast={toast} settoast={settoast} setisAuth={setisAuth} />} />
 
-          <Route path="/dashboard" element={<Dashboard setisAuth={setisAuth} />} />
-          <Route path='/sendmoney' element={<SendMoney />} />
+          <Route path="/dashboard" element={<Dashboard toast={toast} settoast={settoast} setisAuth={setisAuth} />} />
+          <Route path='/sendmoney' element={<SendMoney toast={toast} settoast={settoast} />} />
           <Route path='*' element={<Pagenotfound />} />
 
 

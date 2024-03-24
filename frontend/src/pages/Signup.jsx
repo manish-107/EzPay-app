@@ -6,7 +6,7 @@ import Button from '../components/Button'
 import img from "../assets/loginPageimg.png"
 import axios from "axios"
 
-const Signup = ({ setisAuth }) => {
+const Signup = ({ setisAuth, toast, settoast }) => {
     const navigate = useNavigate();
     const [userName, setuserName] = useState("");
     const [firstName, setfirstName] = useState("");
@@ -31,9 +31,12 @@ const Signup = ({ setisAuth }) => {
                 navigate('/dashboard');
             } else {
                 console.log(response);
+                settoast(true);
+
 
             }
         } catch (error) {
+            settoast(true);
             console.log(error)
         }
     }

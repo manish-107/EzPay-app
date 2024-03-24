@@ -37,7 +37,7 @@ const SendMoney = () => {
                                     }
                                 })
                                     .then(response => {
-                                        console.log(response)
+
                                         setTimeout(() => {
                                             navigate("/dashboard")
                                         }, 2000);
@@ -46,8 +46,12 @@ const SendMoney = () => {
                                         // Handle error response
                                         console.error('Error:', error);
                                     });
-                            }} className="inline-flex items-center justify-center w-48 px-4 py-2 text-sm font-medium text-center text-white bg-green-500 rounded-lg focus:ring-4 focus:outline-none ">Send Money</button>
+                            }} className="inline-flex items-center justify-center px-4 py-2 mr-2 text-sm font-medium text-center text-white bg-green-500 rounded-lg w-23 focus:ring-4 focus:outline-none ">Send Money</button>
+                            <button onClick={() => {
+                                navigate("/dashboard")
+                            }} className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-center text-white bg-green-500 rounded-lg w-23 focus:ring-4 focus:outline-none ">Back</button>
                         </div>
+
                     </div>
                 </div>
 
