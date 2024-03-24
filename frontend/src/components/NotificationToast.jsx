@@ -4,7 +4,7 @@ const NotificationToast = ({ color, text }) => {
     console.log(color, text);
     return (
         <div>
-            <div className={`fixed flex items-center justify-between max-w-xs p-4 px-4 py-1 text-white transition bg-${color}-600 border rounded-md shadow-lg right-10 top-48 z-80`}>
+            <div className={`fixed flex items-center justify-between max-w-xs p-4 px-4 py-1 text-white transition bg-${color}-600 border rounded-md shadow-lg right-10 top-20 z-80`}>
 
 
                 <div className="flex items-center p-1">

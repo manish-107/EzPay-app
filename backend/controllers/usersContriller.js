@@ -19,7 +19,7 @@ const signup = asyncHandler(async (req, res) => {
     const { success } = signZod.safeParse(req.body);
     if (!success) {
         return res.status(411).json({
-            msg: "Email already taken / incorrect email"
+            message: "Email already taken / incorrect email"
         })
     }
 
@@ -48,7 +48,7 @@ const signup = asyncHandler(async (req, res) => {
     }, JWT_SECRET)
 
     res.json({
-        msg: "User created successfully",
+        message: "User created successfully",
         token: token
     })
 })
@@ -61,14 +61,14 @@ const zodSignin = zod.object({
 const signin = asyncHandler(async (req, res) => {
     const { success } = zodSignin.safeParse(req.body);
     if (!success) {
-        return res.status(411).json({ msg: "Email already taken or incorrect email" })
+        return res.status(411).json({ message: "Email already taken or incorrect email" })
     }
 
     const existingUser = await userModel.findOne({
         userName: req.body.userName
     })
     if (!existingUser) {
-        return res.status(411).json({ msg: "User name does not exists" })
+        return res.status(411).json({ message: "User name does not exists" })
     }
 
     const user = await userModel.findOne({
@@ -103,14 +103,14 @@ const updateUser = asyncHandler(async (req, res) => {
 
     try {
         if (!success) {
-            return res.status(401).json({ msg: "Enter correct values" })
+            return res.status(401).json({ message: "Enter correct values" })
         }
         await userModel.updateOne({ _id: req.userId }, req.body)
         res.json({
             message: "User updated"
         })
     } catch (error) {
-        res.status(403).json({ msg: "Error while updating data" })
+        res.status(403).json({ message: "Error while updating data" })
     }
 
 })

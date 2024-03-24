@@ -29,7 +29,6 @@ const LoginPage = ({ setisAuth, toast, settoast }) => {
                     text: "Login successful",
                     display: true
                 });
-                console.log(toast);
                 setTimeout(() => {
                     settoast({
                         color: "",
@@ -39,10 +38,9 @@ const LoginPage = ({ setisAuth, toast, settoast }) => {
                     navigate("/dashboard");
                 }, 2000);
             } else {
-                console.log(res.msg);
                 settoast({
                     color: "red",
-                    text: `${res.msg}`,
+                    text: `${res.response.data.message}`,
                     display: true
                 });
                 setTimeout(() => {
@@ -54,9 +52,10 @@ const LoginPage = ({ setisAuth, toast, settoast }) => {
                 }, 2000);
             }
         } catch (error) {
+            console.log(error)
             settoast({
                 color: "red",
-                text: "Invalid credentials",
+                text: `${error.response.data.message}`,
                 display: true
             });
             setTimeout(() => {
