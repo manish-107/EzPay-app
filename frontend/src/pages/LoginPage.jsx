@@ -37,25 +37,12 @@ const LoginPage = ({ setisAuth, toast, settoast }) => {
                     });
                     navigate("/dashboard");
                 }, 2000);
-            } else {
-                settoast({
-                    color: "red",
-                    text: `${res.response.data.message}`,
-                    display: true
-                });
-                setTimeout(() => {
-                    settoast({
-                        color: "",
-                        text: "",
-                        display: false
-                    });
-                }, 2000);
             }
         } catch (error) {
             console.log(error)
             settoast({
                 color: "red",
-                text: `${error.response.data.message}`,
+                text: "Invalid credentials",
                 display: true
             });
             setTimeout(() => {
@@ -80,7 +67,8 @@ const LoginPage = ({ setisAuth, toast, settoast }) => {
                         src={img}
                     />
                 </div>
-                {toast.color && <NotificationToast color={toast.color} text={toast.text} />}
+                {toast.color == "red" && <NotificationToast color="red" text={toast.text} />}
+                {toast.color == "green" && <NotificationToast color="green" text={toast.text} />}
                 <div className="flex flex-col w-full p-8 mt-6 rounded-lg lg:ml-6 lg:w-2/6 md:w-1/2 md:ml-auto md:mt-0">
                     <HeadingPage text="Sign In" />
 
