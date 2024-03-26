@@ -30,14 +30,12 @@ const Signup = ({ setisAuth, toast, settoast }) => {
                 setuserName("");
                 navigate('/dashboard');
             } else {
-                console.log(response);
                 settoast(true);
 
 
             }
         } catch (error) {
             settoast(true);
-            console.log(error)
         }
     }
 

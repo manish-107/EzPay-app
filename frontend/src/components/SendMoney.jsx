@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import NotificationToast from './NotificationToast';
 
-const SendMoney = () => {
+const SendMoney = ({ toast, settoast }) => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const id = searchParams.get("id");
@@ -12,6 +13,7 @@ const SendMoney = () => {
     console.log(name, id);
     return (
         <div className='flex items-center justify-center h-screen bg-slate-900'>
+            {toast.color && <NotificationToast color={toast.color} text={toast.text} />}
             <div className='flex items-center justify-center p-3 border border-gray-300 rounded'>
 
 

@@ -25,7 +25,7 @@ const LoginPage = ({ setisAuth, toast, settoast }) => {
                 setisAuth(true);
 
                 settoast({
-                    color: "green",
+                    color: "bg-green-600",
                     text: "Login successful",
                     display: true
                 });
@@ -39,9 +39,8 @@ const LoginPage = ({ setisAuth, toast, settoast }) => {
                 }, 2000);
             }
         } catch (error) {
-            console.log(error)
             settoast({
-                color: "red",
+                color: "bg-red-600",
                 text: "Invalid credentials",
                 display: true
             });
@@ -67,8 +66,7 @@ const LoginPage = ({ setisAuth, toast, settoast }) => {
                         src={img}
                     />
                 </div>
-                {toast.color == "red" && <NotificationToast color="red" text={toast.text} />}
-                {toast.color == "green" && <NotificationToast color="green" text={toast.text} />}
+                {toast.color && <NotificationToast color={toast.color} text={toast.text} />}
                 <div className="flex flex-col w-full p-8 mt-6 rounded-lg lg:ml-6 lg:w-2/6 md:w-1/2 md:ml-auto md:mt-0">
                     <HeadingPage text="Sign In" />
 
