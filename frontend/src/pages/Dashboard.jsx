@@ -15,7 +15,14 @@ const Dashboard = () => {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter)
+            const token = localStorage.getItem("token");
+            console.log(token)
+            axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter,
+                {
+                    headers: {
+                        authorization: 'Bearer ' + token
+                    }
+                })
                 .then(response => {
                     setuser(response.data.user);
                     console.log(response)

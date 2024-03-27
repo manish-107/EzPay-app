@@ -116,27 +116,30 @@ const updateUser = asyncHandler(async (req, res) => {
 })
 
 const getUserBulk = asyncHandler(async (req, res) => {
-    const filter = await req.query.filter || "";
+    const filter = req.query.filter || "";
+    const currentUser = req.userId; // Assuming you have the current user information in req.user
+    console.log(filter)
     const users = await userModel.find({
-        $or: [{
-            firstName: {
-                "$regex": filter
-            }
-        }, {
-            lastName: {
-                "$regex": filter
-            }
-        }]
-    })
-
+        $and: [
+            {
+                $or: [
+                    { firstName: { "$regex": filter } },
+                    { lastName: { "$regex": filter } }
+                ]
+            },
+            { _id: { $ne: currentUser } } // Exclude the current user
+        ]
+    });
+    console.log(users)
     res.json({
-        user: users.map(user => ({
+        users: users.map(user => ({
             username: user.userName,
             firstname: user.firstName,
             lastname: user.lastName,
             _id: user._id
         }))
-    })
-})
+    });
+});
+
 
 export { signup, signin, updateUser, getUserBulk }
