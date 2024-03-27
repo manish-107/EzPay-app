@@ -22,7 +22,8 @@ const getBalance = asyncHandler(async (req, res) => {
     res.json({
         firstname: userDetails.firstName,
         lastname: userDetails.lastName,
-        balance: account.balance
+        balance: account.balance,
+        userid: userId
     });
 });
 

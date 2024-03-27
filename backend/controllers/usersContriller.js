@@ -116,8 +116,9 @@ const updateUser = asyncHandler(async (req, res) => {
 })
 
 const getUserBulk = asyncHandler(async (req, res) => {
-    const filter = req.query.filter || "";
-    const currentUser = req.userId; // Assuming you have the current user information in req.user
+    const currentUser = await req.headers.userid;
+    console.log(currentUser)
+    const filter = await req.query.filter || "";
     console.log(filter)
     const users = await userModel.find({
         $and: [
