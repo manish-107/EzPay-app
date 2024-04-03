@@ -10,9 +10,10 @@ const SendMoney = ({ toast, settoast }) => {
     const name = searchParams.get("name");
     const [amt, setamt] = useState(0);
     const [desc, setdesc] = useState("");
-    console.log(name, id);
+    console.log(toast)
     return (
         <div className='flex items-center justify-center h-screen bg-slate-900'>
+
             {toast.color && <NotificationToast color={toast.color} text={toast.text} />}
             <div className='flex items-center justify-center p-3 border border-gray-300 rounded'>
 
@@ -39,15 +40,53 @@ const SendMoney = ({ toast, settoast }) => {
                                     }
                                 })
                                     .then(response => {
-
-                                        setTimeout(() => {
-                                            navigate("/dashboard")
-                                        }, 2000);
+                                        if (response.status === 200) {
+                                            settoast({
+                                                color: "bg-green-600",
+                                                text: "Amount transferred successfully",
+                                                display: true
+                                            });
+                                            setTimeout(() => {
+                                                navigate("/dashboard");
+                                                settoast({
+                                                    color: "",
+                                                    text: "",
+                                                    display: false
+                                                });
+                                            }, 2000);
+                                        } else {
+                                            settoast({
+                                                color: "bg-red-600",
+                                                text: "Unable to send money",
+                                                display: true
+                                            });
+                                            setTimeout(() => {
+                                                navigate("/dashboard");
+                                                settoast({
+                                                    color: "",
+                                                    text: "",
+                                                    display: false
+                                                });
+                                            }, 2000);
+                                        }
                                     })
                                     .catch(error => {
-                                        // Handle error response
+                                        settoast({
+                                            color: "bg-red-600",
+                                            text: "Unable to send money",
+                                            display: true
+                                        });
+                                        setTimeout(() => {
+                                            navigate("/dashboard");
+                                            settoast({
+                                                color: "",
+                                                text: "",
+                                                display: false
+                                            });
+                                        }, 2000);
                                         console.error('Error:', error);
                                     });
+
                             }} className="inline-flex items-center justify-center px-4 py-2 mr-2 text-sm font-medium text-center text-white bg-green-500 rounded-lg w-23 focus:ring-4 focus:outline-none ">Send Money</button>
                             <button onClick={() => {
                                 navigate("/dashboard")

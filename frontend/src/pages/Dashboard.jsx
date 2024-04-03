@@ -35,7 +35,6 @@ const Dashboard = () => {
             })
                 .then(response => {
                     setUsers(response.data.users);
-                    console.log(response);
                 })
                 .catch(err => {
                     console.log(err);
@@ -46,7 +45,6 @@ const Dashboard = () => {
     }, [filter, userId]); // Added userId as a dependency
 
 
-    console.log(users)
     const balance = userDetails ? userDetails.balance : null;
     const trimmedAmt = balance ? parseFloat(balance).toFixed(3) : null;
 

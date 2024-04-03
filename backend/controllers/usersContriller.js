@@ -117,9 +117,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
 const getUserBulk = asyncHandler(async (req, res) => {
     const currentUser = await req.headers.userid;
-    console.log(currentUser)
     const filter = await req.query.filter || "";
-    console.log(filter)
     const users = await userModel.find({
         $and: [
             {
@@ -131,7 +129,6 @@ const getUserBulk = asyncHandler(async (req, res) => {
             { _id: { $ne: currentUser } } // Exclude the current user
         ]
     });
-    console.log(users)
     res.json({
         users: users.map(user => ({
             username: user.userName,

@@ -14,7 +14,6 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
         const decoded = jwt.verify(token, JWT_SECRET);
         if (decoded.userId) {
             req.userId = decoded.userId;
-            console.log(res.userId)
             next()
         } else {
             return res.status(403).json({});
