@@ -10,7 +10,6 @@ const SendMoney = ({ toast, settoast }) => {
     const name = searchParams.get("name");
     const [amt, setamt] = useState(0);
     const [desc, setdesc] = useState("");
-    console.log(toast)
     return (
         <div className='flex items-center justify-center h-screen bg-slate-900'>
 
